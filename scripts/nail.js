@@ -1,0 +1,1 @@
+console.log('nail.js import ok');
