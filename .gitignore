@@ -1,1 +1,4 @@
 bower_components/
+node_modules/
+scripts/build/
+images/build/
