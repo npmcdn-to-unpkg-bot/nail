@@ -18,10 +18,17 @@ module.exports = function(grunt) {
       // },
       dist: {
         src: [
-            'scripts/libs/*.js', // All JS in the libs folder
-            'scripts/nail.js'  // This specific file
+            'scripts/libs/*.js', 
+            'scripts/nail.js'
         ],
         dest: 'scripts/build/js.js'
+      },
+      dist: {
+        src: [
+            'css/libs/*.css',
+            'css/main.css'
+        ],
+        dest: 'css/build/style.css'
       }
     },
     uglify: {
@@ -33,13 +40,24 @@ module.exports = function(grunt) {
         dest: 'scripts/build/js.min.js'
       }
     },
+    cssmin:{
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'css/build',
+          src: ['*.css', '!*.min.css'],
+          dest: 'css/build',
+          ext: '.min.css'
+        }]
+      }
+    },
     imagemin: {
       dynamic: {
           files: [{
               expand: true,
               cwd: 'images/',
               src: ['*.{png,jpg,gif}'],
-              dest: 'images/build/'
+              dest: 'images/'
           }]
       }
     },
@@ -93,6 +111,7 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
   // grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -100,5 +119,5 @@ module.exports = function(grunt) {
 
   // Default task.
   // grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
-  grunt.registerTask('default', ['concat', 'uglify', 'imagemin']);
+  grunt.registerTask('default', ['concat', 'uglify', 'cssmin', /*'imagemin'*/]);
 };
