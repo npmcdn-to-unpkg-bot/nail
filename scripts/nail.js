@@ -3,17 +3,22 @@ var Content = React.createClass({
         var access_token = '2284247885.bb4f32a.47851f2fda564915bbae378c5d9710bb';
         var count = 4;
 
+        var tags =['nail', 'k3', '친구들','에스컬레이터','데일리'];
+        var random = Math.floor(Math.random()/2 * 10);
+        var tag = tags[random];
+        var url= 'https://api.instagram.com/v1/tags/'+ tag +'/media/recent';
+
         $.ajax({   
             type: 'GET',
             dataType: 'jsonp',
-            url: this.props.url,
+            url: url,
             data: {access_token: access_token, count: count},
             success: function(data){
                 this.setState({data: data.data});
             }.bind(this),
             error:function(xhr, status, err){
                 console.error('message:'+xhr.responseText);
-                console.error(this.props.url, status, err.toString());
+                console.error(url, status, err.toString());
             }.bind(this)
         });
     },
@@ -22,11 +27,12 @@ var Content = React.createClass({
     },
     componentDidMount: function(){
         this.loadCommentsFromServer();
+        setInterval(this.loadCommentsFromServer, this.props.pollInterval)
     },
     render: function(){
         return (
             <div className="content">
-                <h2 className="title"> 최신네일 ㅋㅋ </h2>
+                <h2 className="title"> 인스타그램 랜덤 사진! </h2>
                 <ImageList data={this.state.data} />
             </div>
         );
@@ -54,9 +60,7 @@ var Image = React.createClass({
     }
 });
 
-
-var url= 'https://api.instagram.com/v1/tags/nail/media/recent';
 ReactDOM.render(
-    <Content url={url} />,
+    <Content pollInterval={3000} />,
     document.getElementById('content')
 )
