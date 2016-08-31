@@ -1,5 +1,5 @@
 var Content = React.createClass({
-    loadCommentsFromServer: function(){
+    loadData: function(){
         var access_token = '2284247885.bb4f32a.47851f2fda564915bbae378c5d9710bb';
         var count = 4;
 
@@ -26,8 +26,8 @@ var Content = React.createClass({
         return {data: []}
     },
     componentDidMount: function(){
-        this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, this.props.pollInterval)
+        this.loadData();
+        setInterval(this.loadData, this.props.pollInterval)
     },
     render: function(){
         return (
