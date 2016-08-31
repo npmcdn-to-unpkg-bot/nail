@@ -23,7 +23,7 @@ var Content = React.createClass({
         });
     },
     getInitialState: function(){
-        return {data: []}
+        return ({data: []});
     },
     componentDidMount: function(){
         this.loadData();
@@ -32,8 +32,8 @@ var Content = React.createClass({
     render: function(){
         return (
             <div className="content">
-                <h2 className="title"> 인스타그램 랜덤 사진! </h2>
-                <ImageList data={this.state.data} />
+                <h2>랜덤사진!</h2>
+                <ImageList data={this.state.data}/>
             </div>
         );
     }
@@ -42,8 +42,8 @@ var Content = React.createClass({
 var ImageList = React.createClass({
     render: function(){
         var ImageNode = this.props.data.map(function(result){
-            return <Image key={result.id} src={result.images.thumbnail.url} />
-        });
+            return <li key={result.id}><img src={result.images.thumbnail.url} /></li>
+        })
         return (
             <ul className="images">
                 {ImageNode}
@@ -52,15 +52,7 @@ var ImageList = React.createClass({
     }
 });
 
-var Image = React.createClass({
-    render: function(){
-        return (
-            <li className="image"><img src={this.props.src} /></li>
-        );
-    }
-});
-
 ReactDOM.render(
-    <Content pollInterval={3000} />,
+    <Content pollInterval={3000}/>,
     document.getElementById('content')
-)
+);
