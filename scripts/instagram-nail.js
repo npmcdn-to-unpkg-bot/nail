@@ -23,19 +23,20 @@ var Content = React.createClass({
         });
     },
     getInitialState: function(){
-        return ({data: []});
+        return ({data: [], text: ''});
     },
     componentDidMount: function(){
         this.loadData();
-        // setInterval(this.loadData, this.props.pollInterval)
+        setInterval(this.loadData, this.props.pollInterval)
     },
-    handlerCommentSubmit: function(comment){
-        console.log(comment);
+    handlerCommentSubmit: function(data){
+        this.setState({text: data.text});
     },
     render: function(){
         return (
             <div className="content">
                 <Title> 랜덤 *사진!* </Title>
+                <Comment text={this.state.text} />
                 <ImageList data={this.state.data}/>
                 <CommentForm onCommentSubmit={this.handlerCommentSubmit}/>
             </div>
@@ -52,6 +53,14 @@ var Title = React.createClass({
     render: function(){
         return (
             <h2 dangerouslySetInnerHTML={this.rawMarkup()} />
+        );
+    }
+});
+
+var Comment = React.createClass({
+    render: function(){
+        return (
+            <span>{this.props.text}</span>
         );
     }
 });
@@ -88,7 +97,8 @@ var CommentForm = React.createClass({
     render: function(){
         return (
             <form className="commentForm" onSubmit={this.handlerSubmit}>
-                <input type="text" placeholder="text..." 
+                <input type="text" placeholder="text..."  
+                    value={this.state.text}
                     onChange={this.handlerTextChange} />
                 <input type="submit" value="Send" />
             </form>
@@ -97,6 +107,6 @@ var CommentForm = React.createClass({
 });
 
 ReactDOM.render(
-    <Content pollInterval={3000}/>,
+    <Content pollInterval={10000}/>,
     document.getElementById('content')
 );
