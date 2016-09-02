@@ -32,7 +32,7 @@ var Content = React.createClass({
             url: url,
             data: {access_token: this.access_token},
             success: function(result){
-                this.setState({data: result.data});
+                this.setState({data: result.data, text: tag});
             }.bind(this),
             error:function(xhr, status, err){
                 console.error('message:' + xhr.responseText);
@@ -41,7 +41,7 @@ var Content = React.createClass({
         });
     },
     getInitialState: function(){
-        return ({tags:[], data: [], text: 'Random'});
+        return ({tags:[], data: [], text: ''});
     },
     componentDidMount: function(){
         this.getTags();
@@ -90,7 +90,7 @@ var Comment = React.createClass({
         return (
             <div className="comment">
                 My tags : <div className="my-tags" dangerouslySetInnerHTML={this.rawMarkup(tagNode.join(', '))} />
-                <p>Search: {text}</p>
+                <p>Search: <mark>{text}</mark></p>
             </div>
         );
     }
