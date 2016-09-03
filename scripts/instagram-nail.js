@@ -46,7 +46,7 @@ var Content = React.createClass({
     componentDidMount: function(){
         this.getTags();
     },
-    handlerCommentSubmit: function(data){
+    handlerSubmit: function(data){
         this.setState({text: data.text});
         this.loadData(data.text);
     },
@@ -54,8 +54,8 @@ var Content = React.createClass({
         return (
             <div className="content">
                 <Title> 인스타그램에서 태그로 **사진** 찾기!</Title>
-                <Comment text={this.state.text} tags={this.state.tags} />
-                <CommentForm onCommentSubmit={this.handlerCommentSubmit} />
+                <Search text={this.state.text} tags={this.state.tags} />
+                <SearchForm onSubmit={this.handlerSubmit} />
                 <ImageList data={this.state.data}/>
             </div>
         );
@@ -75,7 +75,7 @@ var Title = React.createClass({
     }
 });
 
-var Comment = React.createClass({
+var Search = React.createClass({
     rawMarkup: function(tagNode){
         if(tagNode.length === 0) return;
         var md = new Remarkable()
@@ -88,7 +88,7 @@ var Comment = React.createClass({
             return (text === data) ? '**'+data+'**' : data;
         });
         return (
-            <div className="comment">
+            <div className="search">
                 My tags : <div className="my-tags" dangerouslySetInnerHTML={this.rawMarkup(tagNode.join(', '))} />
                 <p>Search: <mark>{text}</mark></p>
             </div>
@@ -102,17 +102,19 @@ var ImageList = React.createClass({
             return <div>No data..</div>
         }
         var ImageNode = this.props.data.map(function(result){
-            return <li key={result.id}><img src={result.images.thumbnail.url} /></li>
+            return <li className="list-inline-item" key={result.id}><img src={result.images.thumbnail.url} /></li>
         })
         return (
-            <ul className="list-unstyled">
-                {ImageNode}
-            </ul>
+            <div className="image-list">
+                <ul className="list-inline">
+                    {ImageNode}
+                </ul>
+            </div>
         );
     }
 });
 
-var CommentForm = React.createClass({
+var SearchForm = React.createClass({
     getInitialState: function(){
         return ({text: ''});
     },
@@ -125,12 +127,12 @@ var CommentForm = React.createClass({
         if(!text){
             return;
         }
-        this.props.onCommentSubmit({text: text});
+        this.props.onSubmit({text: text});
         this.setState({text: ''});
     },
     render: function(){
         return (
-            <form className="commentForm" onSubmit={this.handlerSubmit}>
+            <form className="searchForm" onSubmit={this.handlerSubmit}>
                 <input type="text" placeholder="Tag..."  
                     value={this.state.text}
                     onChange={this.handlerTextChange} />
