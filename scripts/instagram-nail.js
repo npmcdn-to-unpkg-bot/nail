@@ -54,7 +54,7 @@ var Content = React.createClass({
         return (
             <div className="content">
                 <Title> 인스타그램에서 태그로 **사진** 찾기!</Title>
-                <Search text={this.state.text} tags={this.state.tags} />
+                <SearchResult text={this.state.text} tags={this.state.tags} />
                 <SearchForm onSubmit={this.handlerSubmit} />
                 <ImageList data={this.state.data}/>
             </div>
@@ -75,7 +75,7 @@ var Title = React.createClass({
     }
 });
 
-var Search = React.createClass({
+var SearchResult = React.createClass({
     rawMarkup: function(tagNode){
         if(tagNode.length === 0) return;
         var md = new Remarkable()
@@ -88,7 +88,7 @@ var Search = React.createClass({
             return (text === data) ? '**'+data+'**' : data;
         });
         return (
-            <div className="search">
+            <div className="search-result">
                 My tags : <div className="my-tags" dangerouslySetInnerHTML={this.rawMarkup(tagNode.join(', '))} />
                 <p>Search: <mark>{text}</mark></p>
             </div>
