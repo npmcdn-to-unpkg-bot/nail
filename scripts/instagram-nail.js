@@ -65,7 +65,7 @@ var Content = React.createClass({
 var Title = React.createClass({
     rawMarkup: function(){
         var md = new Remarkable();
-        var rawMarkup = md.render(this.props.children.toString())
+        var rawMarkup = md.render(this.props.children.toString());
         return ({__html: rawMarkup});
     },
     render: function(){
@@ -102,8 +102,16 @@ var ImageList = React.createClass({
             return <div>No data..</div>
         }
         var ImageNode = this.props.data.map(function(result){
-            return <li className="list-inline-item" key={result.id}><img src={result.images.thumbnail.url} /></li>
-        })
+            var node = '';
+            if('videos'in result){
+                node = <video width="200" autoPlay>
+                          <source src={result.videos.standard_resolution.url} type="video/mp4" />
+                        </video>
+            } else{
+                node = <img src={result.images.thumbnail.url} />
+            }
+            return <li className="list-inline-item" key={result.id}>{node}</li>
+        });
         return (
             <div className="image-list">
                 <ul className="list-inline">
